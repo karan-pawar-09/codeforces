@@ -1,0 +1,1 @@
+{"name":"Local: gfgq1","url":"d:\\Codes\\codeForces\\gfgq1.cpp","tests":[{"id":1621674153718,"input":"1\n8 7 19\n5 3 7 9 7 9 7 7","output":"1"},{"id":1621675059281,"input":"1\n5 8 13\n3 5 5 2 6","output":"3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\gfgq1.cpp","group":"local","local":true}

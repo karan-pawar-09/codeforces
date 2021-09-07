@@ -1,0 +1,1 @@
+{"name":"Local: week3q4","url":"d:\\Codes\\codeForces\\week3q4.cpp","tests":[{"id":1621603152555,"input":"1\n23\n39","output":"897"},{"id":1621603165404,"input":"3\n1 3 -5\n-2 4 1","output":"23"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\week3q4.cpp","group":"local","local":true}

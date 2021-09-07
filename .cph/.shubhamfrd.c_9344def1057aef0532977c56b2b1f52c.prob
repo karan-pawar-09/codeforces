@@ -1,0 +1,1 @@
+{"name":"Local: shubhamfrd","url":"d:\\Codes\\codeForces\\shubhamfrd.c","tests":[{"id":1625072378321,"input":"5 abc10gh","output":"c"},{"id":1625074762171,"input":"3 ab11k10p","output":"b"},{"id":1625075381362,"input":"2 ky0rtyy","output":"y"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\shubhamfrd.c","group":"local","local":true}

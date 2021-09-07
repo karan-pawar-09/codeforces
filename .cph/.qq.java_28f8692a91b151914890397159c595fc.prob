@@ -1,0 +1,1 @@
+{"name":"Local: qq","url":"d:\\Codes\\codeForces\\qq.java","tests":[{"id":1627275232352,"input":"3\n1 1 1","output":"1.000000"},{"id":1627279803594,"input":"3\n1 1 2","output":"1.333333"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\qq.java","group":"local","local":true}

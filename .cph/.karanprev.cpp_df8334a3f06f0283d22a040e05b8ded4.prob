@@ -1,0 +1,1 @@
+{"name":"Local: karanprev","url":"d:\\Codes\\codeForces\\karanprev.cpp","tests":[{"id":1607820742336,"input":"1\n3 3","output":"1 2 3"},{"id":1607820767132,"input":"2\n11 5\n3 3","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\karanprev.cpp","group":"local","local":true}

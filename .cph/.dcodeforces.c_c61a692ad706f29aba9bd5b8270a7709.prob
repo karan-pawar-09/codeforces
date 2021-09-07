@@ -1,0 +1,1 @@
+{"name":"Local: dcodeforces","url":"d:\\Codes\\codeForces\\dcodeforces.c","tests":[{"id":1626972181528,"input":"4\nababa\nba\nababa\nbb\naaa\naaaa\naababa\nababa","output":"YES\nNO\nNO\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\dcodeforces.c","group":"local","local":true}

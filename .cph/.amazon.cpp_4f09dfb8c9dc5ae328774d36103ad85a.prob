@@ -1,0 +1,1 @@
+{"name":"Local: amazon","url":"d:\\Codes\\codeForces\\amazon.cpp","tests":[{"id":1619948883043,"input":"3\n1 3 5\n3\n2 1 3\n1 2 4\n2 1 2","output":"7\n5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\amazon.cpp","group":"local","local":true}
