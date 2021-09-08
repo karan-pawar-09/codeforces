@@ -7,94 +7,90 @@ using namespace std;
 #define ll long long
 #define all(ar) ar.begin(),ar.end()
 #define endl '\n'
-const ll mx=1e5+7;
-const ll mod=998244353;
-ll fact[mx];
-ll ifact[mx];
 
-ll mul(ll a,ll b) {
+const ll mod=998244353;
+const ll N = 2e5 +5 ; 
+ 
+struct nCr{
+    ll mxN, M; 
+    vector<ll> fact, ifact; 
+    inline ll mul(ll a, ll b) { return a *1LL* b % M ;}
+    ll power(ll a, ll n) {
+        if(n == 0) return 1 ; 
+        ll p = power(a, n/2) % M ; 
+        p = mul(p, p) ;  
+        return n & 1 ? mul(p, a) : p ; 
+    }
+    ll invMod(ll a) {return power(a,M-2);}
+    void pre() {
+        fact[0] = 1 ;
+        for(ll i = 1;i< mxN;++i) fact[i] = mul(i, fact[i-1]) ;
+        ifact[mxN-1] = invMod(fact[mxN-1]) ; 
+        for(ll i = mxN-1 ; i>0 ;--i) ifact[i-1] = mul(ifact[i], i) ;
+    }
+    nCr(ll _mxN, ll _M) {
+        mxN = _mxN + 1; 
+        M = _M ; 
+        fact.resize(mxN) ; 
+        ifact.resize(mxN) ;
+        pre() ;  
+    }
+    ll C(ll n, ll r) {
+        if (n < r || r < 0 || n < 0) return 0;
+        return mul(fact[n], mul(ifact[r], ifact[n-r])) ;
+    }
+    ll factorial(ll a) {
+        return fact[a];
+    }
+};
+nCr A(N,mod);
+
+ll mul(ll a, ll b) {
     return (a*b)%mod;
 }
-ll sub(ll a,ll b) {
-    return (a-b+mod+mod)%mod;
+ll sub(ll a, ll b) {
+    return (a-b+mod)%mod;
 }
-ll power(long long x, unsigned ll y, ll mod) {
-    ll res = 1; 
-    x = x % mod;   
-    if (x == 0) return 0;  
-    while (y > 0) {        
-        if (y & 1)
-            res = (res*x) % mod; 
-        y = y>>1;
-        x = (x*x) % mod;
-    }
-    return res;
+ll add(ll a, ll b) {
+    return (a+b)%mod;
 }
-ll modInv(ll a,ll mod) {
-    return power(a,mod-2,mod) % mod ;
-}
-ll ncr(ll n,ll r) {
-    return mul(mul(fact[n],ifact[r]),ifact[n-1]);
-}
+
+
 void solve() {
     ll n;
     cin>>n;
-    ll no=n;
-    ll ans=fact[n];
     vector<ll> arr(n);
-    map<ll,ll> M;
     for(ll i=0;i<n;i++) {
         cin>>arr[i];
-        M[arr[i]]++;
     }
     sort(all(arr));
-    ll ind=0;
-    ll prev;
-    bool answer=true;
-    for(auto x:M) {
-        if(ind>0) {
-            if(x.first-prev>1) {
-                answer=false;
-                break;
-            }
-        }
-        prev=x.first;
-        ind++;
-    }
-    ll maxi=arr[n-1];
-    if(!answer) {
+    if(arr[n-1]-arr[n-2]>1) {
         cout<<0<<endl;
     }
+    else if(arr[n-1]==arr[n-2]) {
+        cout<<A.factorial(n)<<endl;
+    }
+    
     else {
-        ind=0;
-        
-        vector<ll> num;
-        for(auto x:M) {
-            num.push_back(x.second);
-        }
-        if(num[0]>1) {
-            cout<<ans<<endl;
-        }
-        else {
-            n=num.size();
-            reverse(all(num));
-            ll sum=0;
-            ll temp=fact[num[0]];
-            for(ll i=1;i<n;i++) {
-                sum+=num[i];
-                if(i==1) {                                           
-                    ll ss=(mul(mul(temp,fact[sum]),fact[no-sum-num[0]]));  
-                    ans=sub(ans,ss);
-                }
-                else {                      
-                    ll ss=mul(mul(mul(temp,fact[sum]),fact[no-sum-num[0]]), (no-sum-num[0]+num[i]));   
-                    ans=sub(ans,ss);
-
-                }
-                
+        ll c1=0;
+        ll c2=0;
+        for(int i=0;i<n;i++) {
+            if(arr[i]==arr[n-1]) {
+                c1++;
             }
-            cout<<ans<<endl;
+            if(arr[i]==arr[n-2]) {
+                c2++;
+            }
         }
+        ll others=n-c1-c2;
+        ll ans=A.factorial(n);
+        for(ll i=0;i<n;i++) {
+            ll after = n - i - 1;
+            ll cur = mul(A.C(others, after), A.factorial(after));
+            cur = mul(cur, A.factorial(i));
+            ans = sub(ans, cur);
+        }
+        cout<<ans<<endl;
     }
 }
 
@@ -103,13 +99,6 @@ int32_t main() {
     cin.tie(NULL);
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
-    fact[1]=1;
-    fact[0]=1;
-    ifact[1]=1;
-    for(ll i=2;i<mx;i++) {
-        fact[i]=mul(fact[i-1],i);
-        ifact[i]=modInv(fact[i],mod);
-    }
     ll t;
     cin>>t;
     while(t--) {

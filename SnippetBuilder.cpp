@@ -14,7 +14,7 @@ int main() {
     cin.tie(NULL);
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
-    int n=13;
+    int n=33;
     for(int i=0;i<n;i++) {
         string s;
         getline(cin,s);
