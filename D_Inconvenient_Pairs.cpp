@@ -63,8 +63,6 @@ void solve() {
         cin>>y[i];
         y_used[y[i]]=true;
     }
-    x.push_back(1e9);
-    y.push_back(1e9);
     sort(all(x));
     sort(all(y));
     vector<pair<ll,ll>> ptx(k);
