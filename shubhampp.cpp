@@ -45,7 +45,7 @@ void solve() {
         mon-=temp*arr[i].second.second;
         ans+=temp*arr[i].second.first;
     }
-    if(money>m || mon<0) {
+    if(mon<0) {
         cout<<0<<endl;
     }
     else
