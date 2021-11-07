@@ -7,6 +7,7 @@ using namespace std;
 #define ll long long
 #define all(ar) ar.begin(),ar.end()
 #define endl '\n'
+
 const int mx=(int)1e5+7;
 vector<int> arr[mx];
 int in[mx];
