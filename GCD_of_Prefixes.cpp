@@ -1,0 +1,54 @@
+/*
+    author:Karan
+    created:17.11.2021 20:12:38
+*/
+#if true
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define all(ar) ar.begin(),ar.end()
+#define endl '\n'
+#define mset(a,x) memset(a,x,sizeof(a))
+#endif
+
+void solve() {
+    ll n;
+    cin>>n;
+    vector<ll> arr(n);
+    for(ll i=0;i<n;i++) {
+        cin>>arr[i];
+    }
+    vector<ll> ans(n);
+    ans[0]=arr[0];
+    bool isPossible=true;
+    for(ll i=1;i<n;i++) {
+        if(arr[i-1]%arr[i]) {
+            isPossible=false;
+            break;
+        }
+        else {
+            ans[i]=arr[i];
+        }
+    }
+    if(isPossible) {
+        for(auto x:ans) cout<<x<<" ";
+        cout<<endl;
+    } else {
+        cout<<-1<<endl;
+    }
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    // freopen("input.txt","r",stdin);
+    // freopen("output.txt","w",stdout);
+    ll t=1;
+    cin>>t;
+    while(t--) {
+        solve();
+    }
+}
