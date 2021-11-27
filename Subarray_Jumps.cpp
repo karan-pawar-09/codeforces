@@ -34,8 +34,7 @@ void solve() {
             temp=i;
         }
     }
-    cout<<max(res,0LL)<<endl;
-    
+    cout<<max(res,0LL)<<endl;    
 }
 
 int32_t main() {
