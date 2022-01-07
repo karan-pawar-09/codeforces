@@ -1,104 +1,28 @@
 /*
-author:Karan
-created:23.08.2021 22:20:42
+    author:Karan
+    created:05.01.2022 23:23:44
 */
-
+#if true
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long
 #define all(ar) ar.begin(),ar.end()
 #define endl '\n'
+#define mset(a,x) memset(a,x,sizeof(a))
+#endif
 
-
-
-//------------------------------------------------------------------------------------------------------------//
-struct testcase{
+void solve() {
     ll n,m,k;
-    vector<ll> arr;
-};
-
-ll randomNumber(ll a,ll b) {    
-    return a + (rand() % b);
-}
-
-string randomString(const ll len) {   
- 
-    string tmp_s;
-    static const char alphanum[] =
-        // "0123456789"
-        // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
-    
-    // srand( (unsigned) time(NULL) * getpid());
-    tmp_s.reserve(len);
-    for (ll i = 0; i < len; ++i) 
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];    
-    
-    return tmp_s;    
-}
-
-vector<vector<ll>> randomMatrix(const ll n) {
-    srand( time(0));
-    vector<vector<ll>> ans(n);   
-    for(ll i=0;i<n;i++) {
-        ll p=randomNumber(1,9);
-        ans[i].push_back(p);
-        for(ll j=0;j<p;j++) {
-            ll q=randomNumber(1,10);
-            ans[i].push_back(q);           
-        }       
-    }
-
-    return ans;
-}
-vector<ll> randomArray(const ll n, int x) {
-    vector<ll> ans(n);
-    for(ll i=0;i<n;i++) {
-        ll p=randomNumber(1,x-1);
-        ans[i]=p;
-    }
-    return ans;
-}
-testcase generateTestCase() {
-    testcase randomTest;
-    randomTest.n = randomNumber(1,10);
-    randomTest.m = randomNumber(1,10);
-    randomTest.k = randomNumber(1,1000);
-    randomTest.arr = randomArray(randomTest.n,randomTest.k);
-    return randomTest;
-}
-
-
-ll bruteForce(testcase T) {
-   ll n,m,k;
-    n=T.n;
-    m=T.m;
-    k=T.k;
-    vector<ll> arr = T.arr;
+    cin>>n>>m>>k;
+    vector<ll> arr(n);
     ll sum=0;
     vector<bool> dir(n,false);
     vector<pair<ll,ll>> check;
     for(ll i=0;i<n;i++) {
-        if(k-arr[i]<arr[i]) {
-            dir[i]=true;
-        }
-        if(((k-arr[i])%2 != (arr[i]%2)))
-            check.push_back({abs(k-arr[i]-arr[i]),i});
-        sum+=arr[i];
-    }
-    return m;
-}
-
-ll optimizedSolution(testcase T) {
-    ll n,m,k;
-    n=T.n;
-    m=T.m;
-    k=T.k;
-    vector<ll> arr = T.arr;
-    ll sum=0;
-    vector<bool> dir(n,false);
-    vector<pair<ll,ll>> check;
-    for(ll i=0;i<n;i++) {
+        cin>>arr[i];
         if(k-arr[i]<arr[i]) {
             dir[i]=true;
         }
@@ -138,11 +62,12 @@ ll optimizedSolution(testcase T) {
             }
         }
         ll kkkk=max(sum-m,0LL);
+        cout<<max(sum-m,0LL)<<endl;
         for(ll i=0;i<n;i++) {
             if(!used[i]) {
                 if(m<=0) break;
                 else {
-                    ll xx=min(m,arr[i]);
+                    int xx=min(m,arr[i]);
                     m-=xx;
                     M[i].first=xx;
                     M[i].second=0;
@@ -151,10 +76,12 @@ ll optimizedSolution(testcase T) {
         }
         ll check=0;
         for(int i=0;i<n;i++) check+=M[i].first+M[i].second;
-        return check;
+        assert(check==x);
+        for(ll i=0;i<n;i++) cout<<M[i].first<<" "<<M[i].second<<endl;
     } else {
         sort(all(check));
         if((x-req)%2==0) {
+            cout<<0<<endl;
             map<ll,pair<ll,ll>> MM;
             for(ll i=0;i<n;i++) MM[i]={0,0};
             for(ll i=0;i<n;i++) {
@@ -170,7 +97,8 @@ ll optimizedSolution(testcase T) {
             MM[0].second+=(x-req)/2;
             ll check=0;
             for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-            return check;
+            assert(check==x);
+            for(ll i=0;i<n;i++) cout<<MM[i].first<<" "<<MM[i].second<<endl;
         } else {
             if(check.size()>0 and check[0].first<=(x-req)) {
                 if(dir[check[0].second]) {
@@ -178,6 +106,7 @@ ll optimizedSolution(testcase T) {
                 } else {
                     dir[check[0].second]=true;
                 }
+                cout<<0<<endl;
                 map<ll,pair<ll,ll>> MM;
                 for(ll i=0;i<n;i++) MM[i]={0,0};
                 m=x;
@@ -204,7 +133,8 @@ ll optimizedSolution(testcase T) {
                 MM[0].second+=m/2;
                 ll check=0;
                 for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-                return check;
+                assert(check==x);
+                for(ll i=0;i<n;i++) cout<<MM[i].first<<" "<<MM[i].second<<endl;
             } else {
                 cout<<1<<endl;
                 map<ll,pair<ll,ll>> MM;
@@ -226,51 +156,26 @@ ll optimizedSolution(testcase T) {
                 MM[0].second++;
                 ll check=0;
                 for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-                return check;
+                assert(check==x);
+                for(ll i=0;i<n;i++) cout<<MM[i].first<<" "<<MM[i].second<<endl;
             }
         }
     }
 }
 
-bool debugger(ll &t){
-    testcase random = generateTestCase();
-    // cout<<random.s<<" ";
-    ll ans1 = bruteForce(random);
-    ll ans2 = optimizedSolution(random);
-    if(ans1 != ans2) {
-        cout<<"WA on testcase "<<t<<endl;
-        // cout<<random.s<<endl;
-        cout<<random.n<<" "<<random.m<<" "<<random.k<<endl;
-        for(int i=0;i<random.arr.size();i++) {
-            cout<<random.arr[i]<<" ";
-        }
-        cout<<endl;
-        cout<<ans1<<" "<<ans2<<endl;
-        // cout<<random.n<<" "<<random.m<<" "<<random.a<<" "<<random.b<<" "<<random.y<<" "<<random.z<<endl;
-        // cout<<ans1<<" "<<ans2<<endl;
-        return false;
-    }
-    else {
-        cout<<"AC on testcase "<<t<<endl;
-        return true;
-    }
-}
-
-
-bool solve(ll &t){
-    if(!debugger(t)) {
-        return false;
-    }
-    else {
-        return true;
-    }
-}
-
 int32_t main() {
-    ll t;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    // freopen("input.txt","r",stdin);
+    // freopen("output.txt","w",stdout);
+    ll t=1;
     cin>>t;
-    for(ll i=1;i<=t;i++) {
-        if(!solve(i)) break;
+    while(t--) {
+        solve();
     }
-    return 0;
 }
+
+
+
+
+ 
