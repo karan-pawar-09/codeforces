@@ -9,9 +9,10 @@ int main() {
     cin.tie(NULL);
     string s;
     cin>>s;
-    int n=s.size();
-    s+=s;
-    for(int i=1;i<=n;i++) {
-        cout<<s[i];
-    }   
+    ll sum=0;
+    for(ll i=0;i<s.size();i++) {
+        ll p=s[i]-'0';
+        sum+=p*100+p*10+p;
+    }  
+    cout<<sum<<endl;
 }

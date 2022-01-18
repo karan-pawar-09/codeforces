@@ -13,8 +13,8 @@ using namespace std;
 
 //------------------------------------------------------------------------------------------------------------//
 struct testcase{
-    ll n,m,k;
-    vector<ll> arr;
+    ll n;
+    string s;
 };
 
 ll randomNumber(ll a,ll b) {    
@@ -25,14 +25,19 @@ string randomString(const ll len) {
  
     string tmp_s;
     static const char alphanum[] =
-        // "0123456789"
+        "1234567890";
         // "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        "abcdefghijklmnopqrstuvwxyz";
+        // "abcdefghijklmnopqrstuvwxyz";
     
     // srand( (unsigned) time(NULL) * getpid());
     tmp_s.reserve(len);
-    for (ll i = 0; i < len; ++i) 
-        tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];    
+    for (ll i = 0; i < len; ++i) {
+        if(i==0) {
+            tmp_s += alphanum[rand() % (sizeof(alphanum) - 2)];
+        }
+        else
+            tmp_s += alphanum[rand() % (sizeof(alphanum) - 1)];    
+    }
     
     return tmp_s;    
 }
@@ -51,7 +56,7 @@ vector<vector<ll>> randomMatrix(const ll n) {
 
     return ans;
 }
-vector<ll> randomArray(const ll n, int x) {
+vector<ll> randomArray(const ll n, ll x) {
     vector<ll> ans(n);
     for(ll i=0;i<n;i++) {
         ll p=randomNumber(1,x-1);
@@ -61,193 +66,60 @@ vector<ll> randomArray(const ll n, int x) {
 }
 testcase generateTestCase() {
     testcase randomTest;
-    randomTest.n = randomNumber(1,10);
-    randomTest.m = randomNumber(1,10);
-    randomTest.k = randomNumber(1,1000);
-    randomTest.arr = randomArray(randomTest.n,randomTest.k);
+    randomTest.n = randomNumber(2,15);
+    randomTest.s = randomString(randomTest.n);
     return randomTest;
 }
 
 
 ll bruteForce(testcase T) {
-   ll n,m,k;
-    n=T.n;
-    m=T.m;
-    k=T.k;
-    vector<ll> arr = T.arr;
-    ll sum=0;
-    vector<bool> dir(n,false);
-    vector<pair<ll,ll>> check;
-    for(ll i=0;i<n;i++) {
-        if(k-arr[i]<arr[i]) {
-            dir[i]=true;
-        }
-        if(((k-arr[i])%2 != (arr[i]%2)))
-            check.push_back({abs(k-arr[i]-arr[i]),i});
-        sum+=arr[i];
+    string s=T.s;
+    ll n=s.size();
+    set<ll,greater<ll>> ans;
+    for(ll i=0;i<n-1;i++) {
+        ll a=s[i]-'0';
+        ll b=s[i+1]-'0';
+        string mid=to_string(a+b);
+        ans.insert(stoll(s.substr(0,i)+mid+s.substr(i+2)));
     }
-    return m;
+    return *ans.begin();
 }
 
 ll optimizedSolution(testcase T) {
-    ll n,m,k;
-    n=T.n;
-    m=T.m;
-    k=T.k;
-    vector<ll> arr = T.arr;
-    ll sum=0;
-    vector<bool> dir(n,false);
-    vector<pair<ll,ll>> check;
-    for(ll i=0;i<n;i++) {
-        if(k-arr[i]<arr[i]) {
-            dir[i]=true;
+    string s=T.s;
+    ll n=s.size();
+    bool done=false;
+    for(ll i=n-2;i>=0;i--) {
+        ll a=s[i]-'0';
+        ll b=s[i+1]-'0';
+        if((a+b)>=10) {
+            string temp=to_string(a+b);
+            s[i]=temp[0];
+            s[i+1]=temp[1];
+            done=true;
+            break;
         }
-        if(((k-arr[i])%2 != (arr[i]%2)))
-            check.push_back({abs(k-arr[i]-arr[i]),i});
-        sum+=arr[i];
     }
-    vector<pair<ll,ll>> v;
-    for(ll i=0;i<n;i++) {
-        v.push_back({k-(2*arr[i]),i});
-    }
-    sort(all(v));
-    ll x=m;
-    ll req=0;
-    vector<bool> used(n,false);    
-    map<ll,pair<ll,ll>> M;
-    for(ll i=0;i<n;i++) M[i]={0,0};
-    for(ll i=0;i<n;i++) {
-        ll kk=min(arr[v[i].second],k-arr[v[i].second]);
-        req+=kk;
-    }    
-    if(req>=x) {
-        for(ll i=0;i<n;i++) {
-            ll kk=min(arr[v[i].second],k-arr[v[i].second]);
-            if(m>=kk) {
-                m-=kk;
-                sum-=arr[v[i].second];
-                used[v[i].second]=true;
-                if(!dir[v[i].second]) {
-                    M[v[i].second].first=kk;
-                    M[v[i].second].second=0;
-                }
-                else {
-                    M[v[i].second].second=kk;
-                    M[v[i].second].first=0;
-                }
-            }
-        }
-        ll kkkk=max(sum-m,0LL);
-        for(ll i=0;i<n;i++) {
-            if(!used[i]) {
-                if(m<=0) break;
-                else {
-                    ll xx=min(m,arr[i]);
-                    m-=xx;
-                    M[i].first=xx;
-                    M[i].second=0;
-                }
-            }
-        }
-        ll check=0;
-        for(int i=0;i<n;i++) check+=M[i].first+M[i].second;
-        return check;
+    ll index=0;
+    if(!done) {
+        ll a=s[0]-'0';
+        ll b=s[1]-'0';
+        s[1]=to_string(a+b)[0];
+        return stoll(s.substr(1));
     } else {
-        sort(all(check));
-        if((x-req)%2==0) {
-            map<ll,pair<ll,ll>> MM;
-            for(ll i=0;i<n;i++) MM[i]={0,0};
-            for(ll i=0;i<n;i++) {
-                {
-                    if(dir[i]) {
-                        MM[i]={0,k-arr[i]};
-                    } else {
-                        MM[i]={arr[i],0};
-                    }
-                } 
-            }
-            MM[0].first+=(x-req)/2;
-            MM[0].second+=(x-req)/2;
-            ll check=0;
-            for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-            return check;
-        } else {
-            if(check.size()>0 and check[0].first<=(x-req)) {
-                if(dir[check[0].second]) {
-                    dir[check[0].second]=false;
-                } else {
-                    dir[check[0].second]=true;
-                }
-                map<ll,pair<ll,ll>> MM;
-                for(ll i=0;i<n;i++) MM[i]={0,0};
-                m=x;
-                for(ll i=0;i<n;i++) {
-                    if(i!=check[0].second) {
-                        if(dir[i]) {
-                            MM[i]={0,k-arr[i]};
-                            m-=k-arr[i];
-                        } else {
-                            MM[i]={arr[i],0};
-                            m-=arr[i];
-                        }
-                    } else {
-                        if(dir[i]) {
-                            MM[i]={0,k-arr[i]};
-                            m-=k-arr[i];
-                        } else {
-                            MM[i]={arr[i],0};
-                            m-=arr[i];
-                        }
-                    }
-                }
-                MM[0].first+=m/2;
-                MM[0].second+=m/2;
-                ll check=0;
-                for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-                return check;
-            } else {
-                cout<<1<<endl;
-                map<ll,pair<ll,ll>> MM;
-                for(ll i=0;i<n;i++) MM[i]={0,0};
-                m=x;
-                for(ll i=0;i<n;i++) {
-                    {
-                        if(dir[i]) {
-                            MM[i]={0,k-arr[i]};
-                            m-=k-arr[i];
-                        } else {
-                            MM[i]={arr[i],0};
-                            m-=arr[i];
-                        }
-                    } 
-                }
-                MM[0].first+=m/2;
-                MM[0].second+=m/2;
-                MM[0].second++;
-                ll check=0;
-                for(int i=0;i<n;i++) check+=MM[i].first+MM[i].second;
-                return check;
-            }
-        }
+        return stoll(s);
     }
 }
 
 bool debugger(ll &t){
     testcase random = generateTestCase();
     // cout<<random.s<<" ";
-    ll ans1 = bruteForce(random);
-    ll ans2 = optimizedSolution(random);
-    if(ans1 != ans2) {
+    ll answ1 = bruteForce(random);
+    ll answ2 = optimizedSolution(random);
+    if(answ1 != answ2) {
         cout<<"WA on testcase "<<t<<endl;
-        // cout<<random.s<<endl;
-        cout<<random.n<<" "<<random.m<<" "<<random.k<<endl;
-        for(int i=0;i<random.arr.size();i++) {
-            cout<<random.arr[i]<<" ";
-        }
-        cout<<endl;
-        cout<<ans1<<" "<<ans2<<endl;
-        // cout<<random.n<<" "<<random.m<<" "<<random.a<<" "<<random.b<<" "<<random.y<<" "<<random.z<<endl;
-        // cout<<ans1<<" "<<ans2<<endl;
+        cout<<random.s<<endl;
+        cout<<answ1<<" "<<answ2<<endl;
         return false;
     }
     else {
