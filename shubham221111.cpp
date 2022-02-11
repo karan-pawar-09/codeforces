@@ -1,6 +1,6 @@
 /*
     author:Karan
-    created:11.02.2022 21:45:51
+    created:11.02.2022 22:41:00
 */
 #if true
 #pragma GCC target ("avx2")
@@ -16,21 +16,20 @@ using namespace std;
 
 void solve() {
     int n;
-    vector<int> arr(n);
+    cin>>n;
+    vector<vector<int>> arr(n,vector<int> (2));
     for(int i=0;i<n;i++) {
-        cin>>arr[i];
+        cin>>arr[i][0]>>arr[i][1];
     }
-    map<int,int> M;
-    for(auto x:arr) {
-        M[x]++;
+    set<int> col,row;
+    for(int i=0;i<n;i++) {
+        col.insert(arr[i][1]);
+        row.insert(arr[i][0]);
     }
-    vector<int> ans;
-    for(auto x:M) {
-        if(x.second>=2) {
-            ans.push_back(x.first);
-        }
-    }
-    return ans;
+    int ans=col.size()*(8);
+    ans+=row.size()*(8);
+    ans-=row.size()*col.size();
+    cout<<ans<<endl;
 }
 
 int32_t main() {
