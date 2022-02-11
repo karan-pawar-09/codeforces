@@ -14,7 +14,7 @@ using namespace std;
 //------------------------------------------------------------------------------------------------------------//
 struct testcase{
     ll n;
-    string s;
+    vector<ll> v;
 };
 
 ll randomNumber(ll a,ll b) {    
@@ -66,59 +66,141 @@ vector<ll> randomArray(const ll n, ll x) {
 }
 testcase generateTestCase() {
     testcase randomTest;
-    randomTest.n = randomNumber(2,15);
-    randomTest.s = randomString(randomTest.n);
+    randomTest.n = randomNumber(1,10);
+    randomTest.v = randomArray(randomTest.n,10);
     return randomTest;
 }
 
 
-ll bruteForce(testcase T) {
-    string s=T.s;
-    ll n=s.size();
-    set<ll,greater<ll>> ans;
-    for(ll i=0;i<n-1;i++) {
-        ll a=s[i]-'0';
-        ll b=s[i+1]-'0';
-        string mid=to_string(a+b);
-        ans.insert(stoll(s.substr(0,i)+mid+s.substr(i+2)));
+bool bruteForce(testcase T) {
+    ll n=T.n;
+    vector<ll> arr=T.v;
+    ll odd=0,even=0;
+    ll indx=0;
+    for(ll i=0;i<n;i++) {
+        if(arr[i]%2) {
+            indx=i+1;
+            odd++;
+        } else {
+            even++;
+        }
     }
-    return *ans.begin();
+    if(odd==0) {
+        return false;
+    }
+    return true;
 }
 
-ll optimizedSolution(testcase T) {
-    string s=T.s;
-    ll n=s.size();
-    bool done=false;
-    for(ll i=n-2;i>=0;i--) {
-        ll a=s[i]-'0';
-        ll b=s[i+1]-'0';
-        if((a+b)>=10) {
-            string temp=to_string(a+b);
-            s[i]=temp[0];
-            s[i+1]=temp[1];
-            done=true;
+bool optimizedSolution(testcase T) {
+    ll n=T.n;
+    vector<ll> arr=T.v;
+    ll odd=0,even=0;
+    ll indx=0;
+    for(ll i=0;i<n;i++) {
+        if(arr[i]%2) {
+            indx=i+1;
+            odd++;
+        } else {
+            even++;
+        }
+    }
+    if(odd==0) {
+        return false;
+    }
+    ll res=0;
+    ll res1=0;
+    for(ll i=0;i<n;i++) {
+        if(i%2==0) {
+            if(arr[i]%2) {
+                res++;
+            }
+        } else {
+            if(arr[i]%2==0) {
+                res++;
+            }
+        }
+    }
+    for(ll i=0;i<n;i++) {
+        if(i%2) {
+            if(arr[i]%2) {
+                res1++;
+            }
+        } else {
+            if(arr[i]%2==0) {
+                res1++;
+            }
+        }
+    }
+    // cout<<min(res1,res)<<endl;
+    vector<pair<ll,ll>> ar;
+     if(res<=res1) {        
+        for(ll i=0;i<n;i++) {
+            if(i%2==0) {
+                if(arr[i]%2) {
+                    if(i<=1) {
+                        ar.push_back({i+1,indx});
+                    } else {
+                        ar.push_back({i+1,2});
+                    }
+                }
+            } else {
+                if(arr[i]%2==0) {
+                    if(i<=1) {
+                        ar.push_back({i+1,indx});
+                    } else {
+                        ar.push_back({i+1,2});
+                    }
+                }
+            }
+        }
+    } else {
+        for(ll i=0;i<n;i++) {
+            if(i%2) {
+                if(arr[i]%2) {
+                    if(i<1) {
+                        ar.push_back({i+1,indx});
+                    } else {
+                        ar.push_back({i+1,1});
+                    }
+                }
+            } else {
+                if(arr[i]%2==0) {
+                    if(i<1) {
+                        ar.push_back({i+1,indx});
+                    } else {
+                        ar.push_back({i+1,1});
+                    }
+                }
+            }
+        }
+    }
+    // assert(ar.size()==min(res,res1));
+    for(auto x:ar) {
+        arr[x.first-1]=arr[x.first-1] ^ arr[x.second-1];
+        // cout<<x.first<<" "<<x.second<<endl;
+    }
+    bool ans=true;
+    for(ll i=0;i<n-1;i++) {
+        if((arr[i]|arr[i+1])%2 == (arr[i]&arr[i+1])%2) {
+            ans=false;
             break;
         }
     }
-    ll index=0;
-    if(!done) {
-        ll a=s[0]-'0';
-        ll b=s[1]-'0';
-        s[1]=to_string(a+b)[0];
-        return stoll(s.substr(1));
-    } else {
-        return stoll(s);
-    }
+    return ans;
 }
 
 bool debugger(ll &t){
     testcase random = generateTestCase();
     // cout<<random.s<<" ";
-    ll answ1 = bruteForce(random);
-    ll answ2 = optimizedSolution(random);
+    bool answ1 = bruteForce(random);
+    bool answ2 = optimizedSolution(random);
     if(answ1 != answ2) {
         cout<<"WA on testcase "<<t<<endl;
-        cout<<random.s<<endl;
+        cout<<random.n<<endl;
+        for(auto x:random.v) {
+            cout<<x<<" ";
+        }
+        cout<<endl;
         cout<<answ1<<" "<<answ2<<endl;
         return false;
     }
