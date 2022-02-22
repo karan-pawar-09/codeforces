@@ -6,6 +6,7 @@ struct Node
     int pow; 
     struct Node *next; 
 }; 
+
 void create_node(int x, int y, struct Node **temp) 
 { 
     struct Node *r, *z; 

@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
+
 struct Node {
     int data;
     struct Node *next;
 }*head=NULL;
+
 void create(int arr[],int n) {
     struct Node *q,*p;
     head=(struct Node*)malloc(sizeof(struct Node));
@@ -18,12 +20,14 @@ void create(int arr[],int n) {
         p=q;
     }
 }
+
 void printLinkedList (struct Node *p) {
     if(p!=NULL) {
         printf("%d",p->data);
         printLinkedList(p->next);        
     }
 }
+
 void insert (struct Node *p, int pos, int given_data) {
     struct Node *t= (struct Node*)malloc(sizeof(struct Node));
     t->data=given_data;
