@@ -43,7 +43,7 @@ void solve() {
     for (ll i = 1;i <= n;i++) {
         cout << arr[i] << endl;
     }
-    
+
 }
 
 int32_t main() {
