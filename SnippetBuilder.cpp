@@ -1,4 +1,5 @@
 
+
 /*
 author:Karan
 created:02.06.2021 20:38:51
@@ -14,16 +15,15 @@ int main() {
     cin.tie(NULL);
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
-    int n=33;
-    for(int i=0;i<n;i++) {
+    int n = 55;
+    for (int i = 0;i < n;i++) {
         string s;
-        getline(cin,s);
+        getline(cin, s);
         string k;
-        k+='\"';
-        k+=s;
-        k+='\"';
-        k+=",";
-        cout<<k<<endl;
+        k += '\"';
+        k += s;
+        k += '\"';
+        k += ",";
+        cout << k << endl;
     }
 }
-

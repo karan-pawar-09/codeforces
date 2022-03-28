@@ -1,0 +1,1 @@
+{"name":"Local: tejasss2","url":"c:\\Work\\Codes\\codeForces\\tejasss2.c","tests":[{"id":1647413842783,"input":"00110100111010\n2 3","output":"00111001110010"},{"id":1647414016322,"input":"00110100111010\n1 2","output":"01101101101000"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Work\\Codes\\codeForces\\tejasss2.c","group":"local","local":true}
