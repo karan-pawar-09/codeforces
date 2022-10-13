@@ -20,5 +20,6 @@ int main() {
         sum+=arr[i];
         t++;
     }
+    
     cout<<sum<<endl;
 }
