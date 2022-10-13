@@ -1,1 +1,0 @@
-{"name":"Local: week5q3","url":"d:\\Codes\\codeForces\\week5q3.cpp","tests":[{"id":1624295445565,"input":"ab\nab","output":"0"},{"id":1624295450278,"input":"short\nports","output":"3"},{"id":1624295463684,"input":"editing\ndistance","output":"5"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\week5q3.cpp","group":"local","local":true}

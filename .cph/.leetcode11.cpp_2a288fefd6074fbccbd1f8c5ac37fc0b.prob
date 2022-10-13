@@ -1,1 +1,0 @@
-{"name":"Local: leetcode11","url":"d:\\Codes\\codeForces\\leetcode11.cpp","tests":[{"id":1626196493568,"input":"bcabc","output":"abc"},{"id":1626197267826,"input":"cbacdcbc","output":"acdb"},{"id":1626197626310,"input":"bbcaac","output":"bac"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\leetcode11.cpp","group":"local","local":true}

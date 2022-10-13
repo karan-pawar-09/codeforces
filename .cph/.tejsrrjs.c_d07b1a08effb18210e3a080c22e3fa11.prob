@@ -1,1 +1,0 @@
-{"name":"Local: tejsrrjs","url":"c:\\Work\\Codes\\codeForces\\tejsrrjs.c","tests":[{"id":1647411570446,"input":"10 5\n2 5 12 2 8 9 13 5 8 12\n5 2 8 12 9","output":"5 5 2 2 8 8 12 12 9 13"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Work\\Codes\\codeForces\\tejsrrjs.c","group":"local","local":true}

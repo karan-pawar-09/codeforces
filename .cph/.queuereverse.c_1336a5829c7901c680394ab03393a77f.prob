@@ -1,1 +1,0 @@
-{"name":"Local: queuereverse","url":"d:\\Codes\\codeForces\\queuereverse.c","tests":[{"id":1619541077523,"input":"3\n1 2 3\n2","output":"2 1 3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\queuereverse.c","group":"local","local":true}

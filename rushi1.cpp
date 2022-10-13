@@ -1,41 +1,30 @@
 /*
     author:Karan
-    created:18.01.2022 13:41:54
+    created:31.08.2022 16:19:51
 */
-#if true
-#pragma GCC target ("avx2")
-#pragma GCC optimization ("O3")
-#pragma GCC optimization ("unroll-loops")
-#include<bits/stdc++.h>
-using namespace std;
-#define ll long long
-#define all(ar) ar.begin(),ar.end()
-#define endl '\n'
-#define mset(a,x) memset(a,x,sizeof(a))
-#endif
 
-void solve() {
-    int n=(int)1e5;
-    vector<bool> is_prime(n+1, true);
-    is_prime[0] = is_prime[1] = false;
-    for (int i = 2; i * i <= n; i++) {
-        if (is_prime[i]) {
-            for (int j = i * i; j <= n; j += i)
-                is_prime[j] = false;
-        }
+#include<bits/stdc++.h>
+
+int minPenalty(int input1, int input2[]) {
+    std::sort(input2, input2+input1);
+    int ans = 0;
+    for(int i=1;i<input1;i++) {
+        ans+=input2[i]-input2[i-1];
     }
-    int k;
-    cin>>k;
-    cout<<is_prime[k]<<endl;
+    return ans;
+}
+void solve() {
+    int n;
+    std::cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++) {
+        std::cin>>arr[i];
+    }
+    std::cout<<minPenalty(n, arr)<<std::endl;
 }
 
 int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    // freopen("input.txt","r",stdin);
-    // freopen("output.txt","w",stdout);
     int t=1;
-    cin>>t;
     while(t--) {
         solve();
     }

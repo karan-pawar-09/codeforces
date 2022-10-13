@@ -1,8 +1,16 @@
 #include <stdio.h>
+
+int f(int n) {
+    static int i = 1;
+    if(n>=5) 
+    return n;
+    n = n+i;
+    i++;
+    return f(n);
+}
 int main()
 {
-   printf("`new_c_question`by");
-   printf("`rgeeksforgeeks"); 
-   getchar();
-   return 0;
+    int x=10, y=15;
+    x^=y^=x^=y;
+    printf("%d %d", x, y);
 }

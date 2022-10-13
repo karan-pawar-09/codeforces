@@ -1,1 +1,0 @@
-{"name":"Local: bip1","url":"c:\\Work\\Codes\\codeForces\\bip1.cpp","tests":[{"id":1642338390733,"input":"3\n2 4 2\n3 6 9\n1 8 2","output":"2\n4\n4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Work\\Codes\\codeForces\\bip1.cpp","group":"local","local":true}

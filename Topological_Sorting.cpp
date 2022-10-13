@@ -13,14 +13,14 @@ vector<int> arr[mx];
 int in[mx];
 vector<int> ans;
 void kahn(int n) {
-    priority_queue<int,vector<int>,greater<int>> q;
+    queue<int> q;
     for(int i=0;i<n;i++) {
         if(in[i]==0) {
             q.push(i);
         }
     }
     while(q.size()) {
-        int v=q.top();
+        int v=q.front();
         q.pop();
         ans.push_back(v);
         for(int x:arr[v]) {

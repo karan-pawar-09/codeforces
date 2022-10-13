@@ -1,1 +1,0 @@
-{"name":"Local: shubhamkkrj1","url":"c:\\Work\\Codes\\codeForces\\shubhamkkrj1.cpp","tests":[{"id":1637396212052,"input":"5+6*7","output":"(5+(6*7))"},{"id":1637398891243,"input":"34+35*73%33+1","output":"(34+(35*(73%(33+4))))"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Work\\Codes\\codeForces\\shubhamkkrj1.cpp","group":"local","local":true}

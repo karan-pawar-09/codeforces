@@ -1,1 +1,0 @@
-{"name":"Local: shubham1","url":"d:\\Codes\\codeForces\\shubham1.cpp","tests":[{"id":1611844138305,"input":"2\nAABABAAAAAAAAAAAA\nBABABABA\nXA\nXB","output":"1\n1"},{"id":1623577282205,"input":"1\nBAC\nBBCA","output":"0"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\shubham1.cpp","group":"local","local":true}

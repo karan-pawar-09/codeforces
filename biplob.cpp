@@ -1,54 +1,61 @@
+/*
+    author:Karan
+    created:15.07.2022 20:23:38
+*/
+#if true
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
 #include<bits/stdc++.h>
 using namespace std;
-int main(){
-    int t=1;
-    vector<int> a;
-    while(t){
-        cout<<"P- Print"<<endl<<"A- Add no"<<endl<<"M- Mean of nos"<<endl<<"S- Smallest no"<<endl<<"L- Largest no"<<endl<<"Q- Quit"<<endl;
-        cout<<"Enter your choice"<<endl;
+#define ll long long
+#define all(ar) ar.begin(),ar.end()
+#define endl '\n'
+#define mset(a,x) memset(a,x,sizeof(a))
+#endif
 
-        char Choice;
-        cin>>Choice;
-        switch(Choice){
-        case 'P': case 'p':
-            if(a.size()){
-            for(int i=0;i<a.size();i++){
-                cout<<a[i]<<" ";
+void solve() {
+    int n,c,q;
+    cin>>n>>c>>q;
+    string s;
+    cin>>s;
+    vector<set<int>> dp(150);
+    for(int i=0;i<n;i++) {
+        dp[s[i]].insert(i+1);
+    }
+    int prev=n;
+    for(int i=0;i<c;i++) {
+        int l,r;
+        cin>>l>>r;
+        for(int j=l;j<=r;j++) {
+            prev++;
+            for(int k='a';k<='z';k++) {
+                if(dp[k].find(j)!=dp[k].end()) {
+                    dp[k].insert(prev);
+                }
             }
-            }
-           else{
-                cout<<"List is empty"<<endl;
-            }
-            cout<<endl;
-            break;
-        case 'A':case 'a':
-            int n;
-            cin>>n;
-            a.push_back(n);
-            cout<<n<<" added"<<endl;
-            break;
-        case 'M': case 'm':
-            {double sum=0;
-            for(int i=0;i<a.size();i++){
-                sum+=a[i];
-            }
-            cout<<(sum/a.size())<<endl;}
-            break;
-        case 'S': case 's':
-            cout<<(*(min_element(a.begin(),a.end())))<<endl;
-            break;
-        case 'L': case 'l':
-            cout<<*(max_element(a.begin(),a.end()))<<endl;
-            break;
-        case 'Q': case 'q':
-            cout<<"Program ended !!!!";
-            t=0;
-            break;
-
-        default:
-             cout<<"Unknown selection, Please try again"<<endl;
-            break;
         }
-        cout<<"---------------------------------------------------------------------------------------------"<<endl;
+    }
+    for(int i=0;i<q;i++) {
+        int x;
+        cin>>x;
+        for(int i='a';i<='z';i++) {
+            if(dp[i].find(x)!=dp[i].end()) {
+                cout<<(char)('a'+(i-'a'))<<endl;
+            }
+        }
+    }
+
+}
+
+int32_t main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    // freopen("input.txt","r",stdin);
+    // freopen("output.txt","w",stdout);
+    int t=1;
+    cin>>t;
+    while(t--) {
+        solve();
     }
 }

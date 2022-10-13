@@ -1,0 +1,4 @@
+<property> 
+    <name> searcher.dir <name>
+    <value> path_to_crawled_file_in_nutch <value>
+<property>

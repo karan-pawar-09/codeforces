@@ -1,76 +1,63 @@
 /*
-author:Karan
-created:15.08.2021 15:26:34
+    author:Karan
+    created:12.08.2022 20:34:17
 */
-#include<iostream>
-#include<vector>
+#if true
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+#include<bits/stdc++.h>
 using namespace std;
 #define ll long long
 #define all(ar) ar.begin(),ar.end()
 #define endl '\n'
+#define mset(a,x) memset(a,x,sizeof(a))
+#endif
 
-vector<vector<int>> arr;
-vector<vector<pair<int,int>>> par;
-vector<vector<bool>> used;
-
-int n,m;
-
-bool isValid(int a,int b) {
-    if(a<0||a>=n||b<0||b>=m) {
-        return false;
+int getMaximumGeyness(vector<string> pixels) {
+    int n = pixels.size();
+    int m = pixels[0].size();
+    vector<int> a(n),b(m);
+    for(int i=0;i<n;i++) {
+        int sum =0;
+        for(int j=0;j<m;j++) {
+            sum+=(pixels[i][j]=='1');
+        }
+        a[i]=sum;
     }
-    if(used[a][b]==true||arr[a][b]!=1) {
-        return false;
+    for(int i=0;i<m;i++) {
+        int sum=0;
+        for(int j=0;j<n;j++) {
+            sum+=(pixels[j][i]=='1');
+        }
+        b[i]=sum;
     }
-    return true;
+    int ans =0;
+    for(int i=0;i<n;i++) {
+        for(int j=0;j<n;j++) {
+            ans = max(ans, 2*(a[i]+b[j]) - (n+m) );
+        }
+    }
+    return ans;
+}
+void solve() {
+    int n;
+    cin>>n;
+    vector<string> arr(n);
+    for(int i=0;i<n;i++) {
+        cin>>arr[i];
+    }
+    cout<<getMaximumGeyness(arr)<<endl;
 }
 
-void dfs(int a,int b) {
-    used[a][b]=1;
-  
-    if(isValid(a+1,b)) {
-        dfs(a+1,b);
-        par[a+1][b]={a,b};
-    }
-    if(isValid(a,b+1)) {
-        dfs(a,b+1);
-        par[a][b+1]={a,b};
-    }
-    if(isValid(a-1,b)) {
-        dfs(a-1,b);
-        par[a-1][b]={a,b};
-    }
-    if(isValid(a,b-1)) {
-        dfs(a,b-1);
-        par[a][b-1]={a,b};
-    }
-}
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
-    cin>>n>>m;
-    arr.resize(n,vector<int> (m));
-    for(int i=0;i<n;i++) {
-        for(int j=0;j<m;j++) {
-            cin>>arr[i][j];
-        }
-    }
-    pair<int,int> start,end;
-    pair<int,int> invalid={-1,-1};
-    cin>>start.first>>start.second>>end.first>>end.second;
-    par.resize(n,vector<pair<int,int>> (m,invalid));
-    used.resize(n,vector<bool>(m,false));
-
-    dfs(start.first,start.second);
-
-    vector<pair<int,int>> ans;
-
-    for(pair<int,int> i=end;i!=invalid;i=par[i.first][i.second]) {
-        ans.push_back(i);
-    }
-    for(auto x:ans) {
-        cout<<"<"<<x.first<<","<<x.second<<">";
+    int t=1;
+    //cin>>t;
+    while(t--) {
+        solve();
     }
 }

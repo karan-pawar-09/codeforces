@@ -1,1 +1,0 @@
-{"name":"Local: suffixArray","url":"d:\\Codes\\codeForces\\suffixArray.cpp","tests":[{"id":1613137495830,"input":"ababba","output":"6 $\n5 a$\n0 ababba$\n2 abba$\n4 ba$\n1 babba$\n3 bba$"},{"id":1621829925284,"input":"aabb","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"d:\\Codes\\codeForces\\suffixArray.cpp","group":"local","local":true}
