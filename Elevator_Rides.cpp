@@ -15,47 +15,39 @@ using namespace std;
 #endif
  
 const ll mx = 21;
+const pair<ll, ll> invalid = {50, 1e9+10};
 ll arr[mx];
-ll dp[1<<mx];
+pair<ll, ll> dp[1<<mx];
+ll n, x;
 
-ll rec(ll bit, ll count, ll wt, int rem, int n, int x) {
-    if(rem == 0) {
-        return count;
-    }
-    if(dp[bit] != -1) {
-        return dp[bit];
-    }
-    ll mini = 50;
-    for(ll i=0;i<n;i++) {
-        if((1<<i)&bit) {
-            bit ^= (1<<i);
-            wt -= arr[i];
-            if(wt < 0) {
-                mini = min(mini, rec(bit, count+1, x-arr[i], rem-1, n, x));
-            } else {
-                mini = min(mini, rec(bit, count, wt, rem-1, n, x));
-            }
-            wt += arr[i];
-            bit ^= (1<<i);
-        }
-    }
-    dp[((1<<n)-1) ^ bit] = mini;
-    return mini;
- 
-}
+
 void solve() {
-    ll n, x;
     cin>>n>>x;
-    for(ll i=0;i<(1<<mx);i++) {
-        dp[i] = -1;
+    for(ll i=0;i<(1<<n);i++) {
+        dp[i] = invalid;
     }
     for(ll i=0;i<n;i++) {
         cin>>arr[i];
     }
-    cout<<rec((1<<n)-1, 1, x, n, n ,x)<<endl;
-    // for(int i=1;i<=((1<<n)-1);i++) {
-    //     cout<<dp[i]<<endl;
-    // }
+    dp[0].first = 0;
+    dp[0].second = 1e9+10;
+    for(ll i=1;i<(1<<n);i++) {
+        for(ll j=0;j<n;j++) {
+            if(i&(1<<j)) {
+                ll prev = dp[i^(1<<j)].second;
+                ll count = dp[i^(1<<j)].first;
+                if(arr[j]+prev <= x) {
+                    prev += arr[j];
+                    dp[i] = min(dp[i], {count, prev});
+                } else {
+                    prev = min(prev, arr[j]);
+                    count++;
+                    dp[i] = min(dp[i], {count, prev});
+                }
+            }
+        }
+    }
+    cout<<dp[(1<<n)-1].first<<endl;
 }
  
 int32_t main() {

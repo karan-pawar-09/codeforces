@@ -83,8 +83,8 @@ vector<ll> getFinalElementShu(vector<ll>arr) {
 
 //------------------------------------------------------------------------------------------------------------//
 struct testcase {
-    ll n;
-    vector<ll> v;
+    ll n, a, b;
+    vector<vector<int>> arr;
 };
 
 ll randomNumber(ll a, ll b) {
@@ -138,8 +138,10 @@ vector<ll> randomArray(const ll n, ll x) {
 }
 testcase generateTestCase() {
     testcase randomTest;
-    randomTest.n = randomNumber(1, 10);
-    randomTest.v = randomArray(randomTest.n, 10);
+    randomTest.n = randomNumber(2, 10);
+    randomTest.a = randomNumber(1, randomTest.n);
+    randomTest.b = randomNumber(1, randomTest.n);
+    randomTest.
     return randomTest;
 }
 

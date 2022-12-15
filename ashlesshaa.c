@@ -1,18 +1,6 @@
-/*
-    author:Karan
-    created:07.11.2022 09:08:08
-*/
-#if true
-#pragma GCC target ("avx2")
-#pragma GCC optimization ("O3")
-#pragma GCC optimization ("unroll-loops")
-#include<bits/stdc++.h>
-using namespace std;
-#define ll long long
-#define all(ar) ar.begin(),ar.end()
-#define endl '\n'
-#define mset(a,x) memset(a,x,sizeof(a))
-#endif
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
 
 const int inf = 1e9+7;
 
@@ -24,35 +12,6 @@ int min(int a, int b) {
     }
 }
 int magical_string(int n, char arr[]) {
-    int i = 1;
-    int del = 0;
-    int temp = 0;
-    while((i+del) < n) {
-        if((i+del)%2) {
-            while(arr[(i+del)] == arr[i+temp-1]) {
-                del++;
-            }
-            temp = del;
-        }
-        i++;
-    }
-    int res = del;
-    i= 2;
-    del = 0;
-    temp = 0;
-    while((i+del) < n) {
-        if((i+del)%2) {
-            while(arr[(i+del)] == arr[i+temp-1]) {
-                del++;
-            }
-            temp = del;
-        }
-        i++;
-    }
-    if(del+1 < res) {
-        res = del+1;
-    }
-
     int dp[n][2];
     int len[n][2];
     int alp[n][2];
@@ -67,7 +26,6 @@ int magical_string(int n, char arr[]) {
         dp[i][1] = inf;
         {
             //delete
-            
             if(dp[i-1][0] < dp[i-1][1]) {
                 dp[i][0] = dp[i-1][0]+1;
                 len[i][0] = len[i-1][0];
@@ -116,9 +74,6 @@ int magical_string(int n, char arr[]) {
             }
         }
     }
-    // for(int i=0;i<n;i++) {
-    //     cout<<dp[i][0]<<" "<<dp[i][1]<<" | "<<(char)alp[i][0]<<" "<<(char)alp[i][1]<<" | "<<len[i][0]<<" "<<len[i][1]<<endl;
-    // }
     return min(dp[n-1][0], dp[n-1][1]);
 }
 
@@ -129,3 +84,6 @@ int main() {
     scanf("%s", s);
     printf("%d", magical_string(n, s));
 }
+
+
+
