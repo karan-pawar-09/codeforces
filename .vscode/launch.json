@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
       {
         "name": "C/C++: clang++ build and debug active file",
         "type": "cppdbg",
@@ -15,7 +16,7 @@
         "environment": [],
         "externalConsole": true,
         "MIMode": "lldb",
-        "preLaunchTask": "C/C++: clang++ build active file"
+        "preLaunchTask": "C/C++: g++-11 build active file"
       }
     ]
   }
