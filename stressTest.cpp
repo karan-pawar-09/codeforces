@@ -10,81 +10,66 @@ using namespace std;
 #define endl '\n'
 
 
-vector<ll> getFinalElement(vector<ll> arr) {
-    stack<ll> s;
+
+stack<ll> calc(stack<ll> a, ll k) {
+    stack<ll> temp;
+    temp.push(k);
+    if(a.size()) {
+        ll p = a.top();    
+        temp.push(p);
+    }
+    return temp;
+}
+stack<ll> calc1() {
+    stack<ll> st;
+    return st;
+}
+
+
+
+ll find(vector<ll> arr) {
     ll n = arr.size();
-    for (ll i = 0;i < n;i++) {
-        if (arr[i] > 0) {
-            s.push(arr[i]);
-        }
-        else {
-            while (s.size() and s.top() < abs(arr[i]) and s.top() >= 0) {
-                s.pop();
+    stack<ll> str, stl;
+    set<ll> ans;
+    ll maxi = 0;
+    if(arr[n-1] > arr[n-2]) {
+        stl.push(arr[n-2]);
+        maxi = arr[n-1];
+        ans.insert(arr[n-1]- arr[n-2]);
+    } else {
+        str.push(arr[n-1]);
+        maxi = arr[n-2];
+        ans.insert(arr[n-2] - arr[n-1]);
+    }
+    for(int i=n-3;i>=0;i--) {
+        if(arr[i] >= maxi) {
+            ans.insert(arr[i] - maxi);
+            while(stl.size()) {
+                ans.insert(arr[i] - stl.top());
+                stl.pop();
             }
-            if (s.size() and s.top() == abs(arr[i])) s.pop();
-            else if (s.size() == 0 or (s.size() and s.top() < 0)) {
-                s.push(arr[i]);
+            maxi = arr[i];
+        } else {
+            while(stl.size() && arr[i] >= stl.top()) {
+                ans.insert(arr[i] - stl.top());
+                stl.pop();
             }
+            if(stl.size()) {
+                ans.insert(stl.top() - arr[i]);
+            } else {
+                ans.insert(maxi - arr[i]);
+            }
+            stl.push(arr[i]);
         }
     }
-    vector<ll> ans;
-    while (s.size()) {
-        ans.push_back(s.top());
-        s.pop();
-    }
-    reverse(ans.begin(), ans.end());
-    return ans;
+   return ans.size();
 }
 
-vector<ll> getFinalElementShu(vector<ll>arr) {
-    stack<ll>s;
-    for (ll i = 0;i < arr.size();i++)
-    {
-        while (1)
-        {
-            if (s.size() == 0)
-            {
-                s.push(arr[i]);
-                break;
-            }
-            ll x = s.top();
-            if (!(x > 0 && arr[i] < 0))
-            {
-                s.push(arr[i]);
-                break;
-            }
-            else
-            {
-                if (abs(x) > abs(arr[i]))
-                    break;
-                else if (abs(x) == abs(arr[i]))
-                {
-                    s.pop();
-                    break;
-                }
-                else
-                {
-
-                    s.pop();
-                }
-            }
-        }
-    }
-    vector<ll>ans;
-    while (!s.empty())
-    {
-        ll x = s.top();
-        s.pop();
-        ans.push_back(x);
-    }
-    reverse(ans.begin(), ans.end());
-    return ans;
-}
 
 //------------------------------------------------------------------------------------------------------------//
 struct testcase {
-    ll n, a, b;
-    vector<vector<int>> arr;
+    ll n;
+    vector<ll> arr;
 };
 
 ll randomNumber(ll a, ll b) {
@@ -139,32 +124,55 @@ vector<ll> randomArray(const ll n, ll x) {
 testcase generateTestCase() {
     testcase randomTest;
     randomTest.n = randomNumber(2, 10);
-    randomTest.a = randomNumber(1, randomTest.n);
-    randomTest.b = randomNumber(1, randomTest.n);
-    randomTest.
+    randomTest.arr = randomArray(randomTest.n, 10);
     return randomTest;
 }
 
 
-vector<ll>  bruteForce(testcase T) {
+ll  bruteForce(testcase T) {
     ll n = T.n;
-    vector<ll> arr = T.v;
-    return  getFinalElement(arr);
+    vector<ll> arr = T.arr;
+    set<int> s;
+    for(ll i=0;i<n-1;i++) {
+        for(ll j=i+1;j<n;j++) {
+            ll maxi = 0;
+            ll secondmaxi = 0;
+            for(ll k = i; k <= j;k++) {
+                if(arr[k] >= maxi) {
+                    secondmaxi = maxi;
+                    maxi = arr[k];
+                } else {
+                    secondmaxi = max(secondmaxi, arr[k]);
+                }
+            }
+            //cout<<i<<" "<<j<<" -> "<<maxi<<" "<<secondmaxi<<endl;
+            s.insert(maxi-secondmaxi);
+        }
+    }
+    return s.size();
 }
 
-vector<ll>  optimizedSolution(testcase T) {
+ll  optimizedSolution(testcase T) {
     ll n = T.n;
-    vector<ll> arr = T.v;
-    return getFinalElementShu(arr);
+    vector<ll> arr = T.arr;
+    ll temp = find(arr);
+    
+    return temp;
 }
 
 bool debugger(ll& t) {
     testcase random = generateTestCase();
     // cout<<random.s<<" ";
-    vector<ll>  answ1 = bruteForce(random);
-    vector<ll>  answ2 = optimizedSolution(random);
+    ll  answ1 = bruteForce(random);
+    ll  answ2 = optimizedSolution(random);
     if (answ1 != answ2) {
         cout << "WA on testcase " << t << endl;
+        
+        cout<<answ1<<" "<<answ2<<endl;
+        cout<<random.n<<endl;
+        for(auto x: random.arr) {
+            cout<<x<<" ";
+        }
         return false;
     }
     else {
