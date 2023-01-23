@@ -1,0 +1,1 @@
+{"name":"Local: vikasss","url":"/Users/karan/Documents/codeforces/vikasss.cpp","tests":[{"id":1674381025437,"input":"2\n3 11 16 9\n2 13 12","output":"14"},{"id":1674381064108,"input":"1\n4 21 16 5 4","output":"22"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/karan/Documents/codeforces/vikasss.cpp","group":"local","local":true}
