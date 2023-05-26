@@ -16,7 +16,7 @@
         "environment": [],
         "externalConsole": true,
         "MIMode": "lldb",
-        "preLaunchTask": "C/C++: g++-11 build active file"
+        "preLaunchTask": "C/C++: clang++ build active file"
       }
     ]
   }

@@ -1,0 +1,1 @@
+{"name":"Local: bleu","url":"/Users/karan/Documents/codeforces/bleu.cpp","tests":[{"id":1679770056199,"input":"input1.txt input2.txt","output":"BLEU Score"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/karan/Documents/codeforces/bleu.cpp","group":"local","local":true}
