@@ -1,6 +1,6 @@
 /*
     author:Karan
-    created:28.05.2023 17:56:44
+    created:28.05.2023 20:06:42
 */
 #if true
 #pragma GCC target ("avx2")
@@ -15,7 +15,20 @@ using namespace std;
 #endif
 
 void solve() {
-   
+    ll n;
+    cin >> n;
+    vector<ll> arr(n);
+    ll maxi = 0;
+    ll mini = 1e9+10;
+    for(ll i=0;i<n;i++) {
+        cin>>arr[i];
+        maxi= max(maxi, arr[i]);
+        mini = min(mini, arr[i]);
+    }
+    for(ll i=0;i<n;i++) {
+        cout<<mini+maxi-arr[i]<<" ";
+    }
+    cout<<endl;
 }
 
 int32_t main() {
@@ -23,7 +36,7 @@ int32_t main() {
     cin.tie(NULL);
     // freopen("input.txt","r",stdin);
     // freopen("output.txt","w",stdout);
-    int t=1;
+    ll t=1;
     cin>>t;
     while(t--) {
         solve();

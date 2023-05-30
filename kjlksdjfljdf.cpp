@@ -62,13 +62,16 @@ int minCost(int n, vector<int>& cuts) {
     int N = arr.size();
     DSU dsu = DSU(N+1);
     vector<int> sz(N+1, 1);
+   
     int price = 0;
     while(true) {
         int mini = 1e9+10;
-        int a, b;
+        int a = -1, b = -1;
         bool used = false;
         for(int i=0;i<N ;) {
-            int prev = i - arr[i];
+            int prev = -1;
+            if(i-1 >=0 )
+                prev = i - dsu.magnitude[dsu.find(i-1)];
             if(prev >= 0) {
                 used = true;
                 if(arr[dsu.find(i)]+arr[dsu.find(prev)] < mini) {
@@ -77,18 +80,17 @@ int minCost(int n, vector<int>& cuts) {
                     b = prev;
                 }
             }
-            i += arr[i];
+            i += dsu.magnitude[dsu.find(i)];
         }
         if(!used) {
             break;
         }
-        int size = arr[a] + arr[b];
-        cout<<size<<endl;
+        int size = arr[dsu.find(a)] + arr[dsu.find(b)];
         price += size;
         dsu.merge(a, b);
         arr[dsu.find(a)] = size;
     }
-    return price + n;
+    return price;
 }
 
 void solve() {
@@ -100,6 +102,12 @@ void solve() {
     for(int i=0;i<m;i++) {
         cin >> arr[i];
     }
+    sort(all(arr));
+    for(auto x: arr) {
+        cout<<x<<" ";
+    }
+    cout<<endl;
+    
     cout<<minCost(n, arr)<<endl;
 }
 
