@@ -1,0 +1,1 @@
+{"name":"Local: biplob12","url":"/Users/karan/Documents/codeforces/biplob12.cpp","tests":[{"id":1685514316078,"input":"8\n3 6 7 100 12 22 12 12\n12 3 6 100 40 3 50 7","output":"22"},{"id":1685514347903,"input":"1\n5\n5","output":"-1"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/karan/Documents/codeforces/biplob12.cpp","group":"local","local":true}
