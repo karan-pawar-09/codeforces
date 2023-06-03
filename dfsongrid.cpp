@@ -32,3 +32,40 @@ int main() {
     vector<vector<bool>> isVisited (n,vector<bool> (m,false));
     dfs(0,0,isVisited,n,m);
 }
+
+
+
+
+struct DSU {
+    vector<ll> parent;
+    vector<ll> magnitude;
+    DSU(ll n) {
+        parent.resize(n+1);
+        magnitude.resize(n+1);
+        for(ll i=0;i<=n;i++) {
+            make_set(i);
+        }
+    }
+
+    ll find(ll v) {
+        if (v == parent[v])
+            return v;
+        return parent[v] = find(parent[v]);
+    }
+
+    void make_set(ll v) {
+        parent[v] = v;
+        magnitude[v] = 1;
+    }
+
+    void merge(ll a, ll b) {
+        a = find(a);
+        b = find(b);
+        if (a != b) {
+            if (magnitude[a] < magnitude[b])
+                swap(a, b);
+            parent[b] = a;
+            magnitude[a] += magnitude[b];
+        }
+    }
+};

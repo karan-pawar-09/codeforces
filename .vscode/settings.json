@@ -3,5 +3,6 @@
         "iostream": "cpp",
         "algorithm": "cpp",
         "random": "cpp"
-    }
+    },
+    "cph.general.onceMaintainerMessage": false
 }
