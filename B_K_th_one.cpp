@@ -8,6 +8,9 @@ using namespace std;
 #define all(ar) ar.begin(),ar.end()
 #define endl '\n'
 
+const ll mod=(ll)1e9+7;
+
+
 #define item long long
 // struct item {
 //     ll seg,pref,suf,sum;
