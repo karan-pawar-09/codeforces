@@ -14,7 +14,8 @@
         "vector": "cpp",
         "*.tcc": "cpp",
         "iosfwd": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "ostream": "cpp"
     },
     "cph.general.onceMaintainerMessage": false
 }

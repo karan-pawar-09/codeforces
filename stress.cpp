@@ -140,6 +140,15 @@ ll randomNumber(ll a, ll b) {
     return a + (rand() % b);
 }
 
+vector<ll> generateRandomPermutation(ll N) {
+    vector<ll> numbers(N);
+    for(ll i = 0; i < N; i++) {
+        numbers[i] = i+1;
+    }
+    random_shuffle(numbers.begin(), numbers.end());
+    return numbers;
+}
+
 string randomString(const ll len) {
 
     string tmp_s;
@@ -195,72 +204,69 @@ vector<string> randomStringArr(ll n) {
 }
 testcase generateTestCase() {
     testcase randomTest;
-    randomTest.n = randomNumber(2, 10);
-    randomTest.arr = randomArray(randomTest.n, 20);
+    randomTest.n = randomNumber(1, 10);
+    randomTest.arr = generateRandomPermutation(randomTest.n);
     return randomTest;
 }
 
-string  bruteForce(testcase T) {
+vector<ll>  bruteForce(testcase T) {
     ll n = T.n;
     vector<ll> arr = T.arr;
-    ll prev = -1;
-    bool used = false;
-    ll maxi = arr[0];
-    string s;
-    for(int i = 0; i < n; i++) {
-        if(used) {
-            if(arr[i] >= prev && arr[i] <= maxi) {
-                s+='1';
-                prev = arr[i];
-            } else {
-                s+='0';
+    vector<vector<ll>> dp;
+    for(ll i = 0; i < n; i++) {
+        for(ll j = i; j < n; j++) {
+            vector<ll> temp;
+            for(ll k = j + 1; k < n; k++) {
+                temp.push_back(arr[k]);
             }
-        } else {
-            if(arr[i] < prev) {
-                if(arr[i] <= maxi) {
-                    used = true;
-                    prev = arr[i];
-                    s+='1';
-                } else {
-                    s+='0';
-                }
-            } else {
-                s += '1';
-                prev = arr[i];
+            for(ll k = j; k >= i; k--) {
+                temp.push_back(arr[k]);
             }
-            
+            for(ll k = 0; k < i; k++) {
+                temp.push_back(arr[k]);
+            }
+            dp.push_back(temp);
         }
     }
-    return s;
+    sort(all(dp), greater<vector<ll>>());
+    return dp[0];
 }
 
-string optimizedSolution(testcase T) {
+vector<ll> optimizedSolution(testcase T) {
     ll n = T.n;
-    vector<ll> a = T.arr;
-     ll first = -1, last = -1, is_sorted = true;
-    string ans = "";
-    for(auto& i: a) {
-        
-        if(first == -1) first = i;
-        if(last == -1) last = i;
-        if(is_sorted && i >= last) {
-            ans += '1';
-            last = i;
-        }
-        else if(is_sorted && (i < last && i <= first)) {
-            ans += '1';
-            is_sorted = false;
-            last = i;
-        }
-        else if(i <= first && i >= last) {
-            ans += '1';
-            last = i;
-        }
-        else {
-            ans += '0';
+    vector<ll> arr = T.arr;
+    vector<ll> res;
+    ll maxi = 0;
+    ll index = 0;
+    for(ll i = 1; i < n; i++) {
+        if(arr[i] > maxi) {
+            maxi = arr[i];
+            index = i;
         }
     }
-    return ans;
+    vector<vector<ll>> dp;
+
+    for(ll i = 0; i < index; i++) {
+        vector<ll> temp;
+        for(ll j = index-1; j >= i; j--) {
+            temp.push_back(arr[j]);
+        }
+        for(ll j = 0; j < i; j++) {
+            temp.push_back(arr[j]);
+        }
+        dp.push_back(temp);
+    }
+    if(index == n-1) {
+        vector<ll> temp;
+        for(ll i = 0; i < index; i++) {
+            temp.push_back(arr[i]);
+        }
+        dp.push_back(temp);
+    }
+    sort(all(dp), greater<vector<ll>>());
+    for(ll i= index; i<n;i++) res.push_back(arr[i]);
+    for(auto x: dp[0]) res.push_back(x);
+    return res;
 }
 
 
@@ -268,14 +274,14 @@ string optimizedSolution(testcase T) {
 bool debugger(ll& t) {
     testcase random = generateTestCase();
     // cout<<random.s<<" ";
-    string  answ1 = bruteForce(random);
-    string  answ2 = optimizedSolution(random);
+    vector<ll>  answ1 = bruteForce(random);
+    vector<ll>  answ2 = optimizedSolution(random);
     if (answ1 != answ2) {
         cout << "WA on testcase " << t << endl;
         
-        cout<<answ1;
+        for(auto x: answ1) cout<<x<<" ";
         cout<<endl;
-        cout<<answ2;
+        for(auto x: answ2) cout<<x<<" ";
         cout<<endl;
         cout<<"__________"<<endl;
         // cout<<random.n<<" "<<random.m<<endl;
@@ -289,6 +295,13 @@ bool debugger(ll& t) {
     }
     else {
         cout << "AC on testcase " << t << endl;
+        // cout<<random.n<<endl;
+        // for(auto x: random.arr) cout<<x<<" ";
+        // cout<<endl;
+        // for(auto x: answ1) cout<<x<<" ";
+        // cout<<endl;
+        // for(auto x: answ2) cout<<x<<" ";
+        // cout<<endl;
         cout << endl;
         return true;
     }
