@@ -130,26 +130,40 @@ using namespace std;
 //     return count;
 // }
 
+ll binary_search(ll n, vector<ll>& arr) {
+    ll l = -1;
+    ll r = arr.size() - 1;
+    while (l + 1 < r) {
+        ll m = l + (r - l) / 2;
+        if (arr[m] >= n) {
+            r = m;
+        }
+        else {
+            l = m;
+        }
+    }
+    return r;
+}
+
 //------------------------------------------------------------------------------------------------------------//
 struct testcase {
-    ll n;
+    ll n, q;
     vector<ll> arr;
-    ll m;
-    string s;
+    vector<ll> qr;
 };
 
 ll randomNumber(ll a, ll b) {
     return a + (rand() % b);
 }
 
-vector<ll> generateRandomPermutation(ll N) {
-    vector<ll> numbers(N);
-    for(ll i = 0; i < N; i++) {
-        numbers[i] = i+1;
-    }
-    random_shuffle(numbers.begin(), numbers.end());
-    return numbers;
-}
+// vector<ll> generateRandomPermutation(ll N) {
+//     vector<ll> numbers(N);
+//     for (ll i = 0; i < N; i++) {
+//         numbers[i] = i + 1;
+//     }
+//     random_shuffle(numbers.begin(), numbers.end());
+//     return numbers;
+// }
 
 string randomString(const ll len) {
 
@@ -187,16 +201,17 @@ vector<vector<ll>> randomMatrix(const ll n) {
 
     return ans;
 }
-vector<ll> randomArray(const ll n, ll x) {
+vector<ll> randomArray(const ll n, ll x, ll start) {
     vector<ll> ans(n);
     for (ll i = 0;i < n;i++) {
-        ll p = randomNumber(1, x);
+        ll p = randomNumber(start, x);
         // ll x=randomNumber(0,2);   //for -ve no
         // if(x==0) p=-p;
         ans[i] = p;
     }
     return ans;
 }
+
 vector<string> randomStringArr(ll n) {
     vector<string> ans(n);
     for (ll i = 0;i < n;i++) {
@@ -204,48 +219,72 @@ vector<string> randomStringArr(ll n) {
     }
     return ans;
 }
+ll nc3(ll n) {
+    return (n * (n - 1) * (n - 2)) / 6;
+}
 testcase generateTestCase() {
     testcase randomTest;
-    randomTest.n = randomNumber(1, 4);
-    randomTest.arr = randomArray(randomTest.n, 10);
-    randomTest.m = randomNumber(1, 3);
-    randomTest.s = randomString(randomTest.m);
+    randomTest.n = randomNumber(3, 3);
+    randomTest.arr = randomArray(randomTest.n, 20, -10);
+    randomTest.q = randomNumber(1, 4);
+    randomTest.qr = randomArray(randomTest.q, nc3(randomTest.n), 1);
     return randomTest;
 }
 
-ll  bruteForce(testcase T) {
-    ll n,k;
-     n = T.n;
-     k = T.m;
-     string s;
-     vector<ll> v, ps(n+1, 0);
-    v = T.arr;
-     rep(i,0,n){
-          ps[i+1]=ps[i]+v[i];
-     }
-    s = T.s;
-     memset(dp,-1,sizeof(dp));
-     return recur(0,0,n-1, n, k, s, ps, v);
+ll nc2(ll n) {
+    return (n * (n - 1)) / 2;
 }
-
-ll optimizedSolution(testcase T) {
-    ll n, m;
+vector<ll>  bruteForce(testcase T) {
+    ll n, q;
     n = T.n;
-    m = T.m;
-    mset(M, -1);
-    vector<ll> arr;
-    arr = T.arr;
-    vector<ll> pref(n);
-    for(ll i = 0; i < n; i++) {
-        if(i == 0) {
-            pref[i] = arr[i];
-        } else {
-            pref[i] = pref[i-1] + arr[i];
+    q = T.q;
+    vector<ll> arr = T.arr;
+    vector<ll> trips;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            for (int k = j + 1; k < n; k++) {
+                trips.push_back(min({ arr[i], arr[j], arr[k] }));
+            }
         }
     }
-    string s;
-    s = T.s;
-    return rec(arr, m, 0, n, pref, s, 1, 0);
+    sort(all(trips));
+    for(auto x: trips) cout<<x<<" ";
+    cout<<endl;
+    vector<ll> res;
+    for (int i = 0; i < q; i++) {
+        ll a;
+        a = T.qr[i];
+        res.push_back(trips[a - 1]);
+    }
+    return res;
+}
+
+vector<ll> optimizedSolution(testcase T) {
+    ll n, q;
+    n = T.n;
+    q = T.q;
+    vector<ll> arr = T.arr;
+
+    sort(all(arr));
+
+    vector<ll> dp(n - 2);
+
+    for (ll i = 0; i < n - 2; i++) {
+        dp[i] = nc2(n - 1 - i);
+    }
+    for (ll i = 1; i < n - 2; i++) {
+        dp[i] += dp[i - 1];
+    }
+
+    // assert(dp.back() == nc3(n));
+    vector<ll> res;
+
+    for (int i = 0; i < q; i++) {
+        ll a;
+        a = T.qr[i];
+        res.push_back(arr[binary_search(a, dp)]);
+    }
+    return res;
 }
 
 
@@ -253,20 +292,23 @@ ll optimizedSolution(testcase T) {
 bool debugger(ll& t) {
     testcase random = generateTestCase();
     // cout<<random.s<<" ";
-    ll  answ1 = bruteForce(random);
-    ll  answ2 = optimizedSolution(random);
+    vector<ll>  answ1 = bruteForce(random);
+    vector<ll>  answ2 = optimizedSolution(random);
     if (answ1 != answ2) {
         cout << "WA on testcase " << t << endl;
-        
-        cout<<answ1<<" "<<answ2<<endl;
-        cout<<"__________"<<endl;
-        // cout<<random.n<<" "<<random.m<<endl;
-        // cout<<answ1<<" "<<answ2<<endl;
-        cout << random.n<<" "<<random.m<< endl;
-        cout<<random.s<<endl;
-        for(auto x: random.arr) {
-            cout<<x<<" ";
+        cout<<random.n<<" "<<random.q<<endl;
+        for (auto x : random.arr) {
+            cout << x << " ";
         }
+        cout << endl;
+        for (auto x : random.qr) {
+            cout << x << " ";
+        }
+        cout << endl;
+        cout << "-----------" << endl;
+        for (auto x : answ1) cout << x << " ";
+        cout << endl;
+        for (auto x : answ2) cout << x << " ";
         cout << endl;
         return false;
     }
